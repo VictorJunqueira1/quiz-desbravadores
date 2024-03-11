@@ -9,29 +9,26 @@
 
 </head>
 
-<body class="w-screen h-screen flex justify-center items-center flex-col bg-gradient-to-r from-blue-500 to-blue-700">
+<body class="w-screen h-screen flex justify-center items-center flex-col bg-gradient-to-r from-blue-400 to-blue-700">
 
     <section class="bg-white rounded-md w-3/4 max-w-4xl mx-auto my-8 p-6">
         <h1 class="text-3xl text-black text-center mb-14">QUIZ DESBRAVADORES</h1>
         <h2 class="text-lg font-semibold text-center mb-4" id="questionContainer"></h2>
         <div class="flex flex-col mb-4 ml-40 mr-40" id="answersContainer"></div>
         <div class="flex justify-end">
-            <button id="nextQuestion"
-                class="bg-blue-500 hover:bg-blue-700 transition-all duration-300 text-white font-bold py-2 px-4 rounded-md mr-40">
-                Próxima Pergunta
+            <!-- class="bg-blue-500 hover:bg-blue-700 transition-all duration-300 text-white font-bold py-2 px-4 rounded-md mr-40" -->
+            <button id="nextQuestion"></button>
+        </div>
+        <div id="resultContainer" class="hidden text-center mx-auto my-8 p-6">
+            <h1 class="text-3xl text-black mb-4">Resultado do Quiz</h1>
+            <p class="text-lg font-semibold">Acertos: <span id="correctAnswersCount" class="text-green-500">0</span></p>
+            <p class="text-lg font-semibold">Erros: <span id="incorrectAnswersCount" class="text-red-500">0</span></p>
+            <button id="restartQuiz"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mt-4 transition-all duration-500">
+                Tentar Novamente
             </button>
         </div>
     </section>
-
-    <div id="resultContainer" class="hidden text-center mx-auto my-8 p-6">
-        <h1 class="text-3xl text-black mb-4">Resultado do Quiz</h1>
-        <p class="text-lg font-semibold">Acertos: <span id="correctAnswersCount" class="text-green-500">0</span></p>
-        <p class="text-lg font-semibold">Erros: <span id="incorrectAnswersCount" class="text-red-500">0</span></p>
-        <button id="restartQuiz" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mt-4">
-            Tentar Novamente
-        </button>
-    </div>
-
 
 
     <script>
@@ -134,6 +131,80 @@
                 ]
             },
         ]
+
+        // DEFININDO AS VARIÁVEIS
+
+        let currentQuestionIndex = 0;
+        let correctAnswersCount = 0;
+        let incorrectAnswersCount = 0;
+
+        const questionContainer = document.getElementById('questionContainer');
+        const answersContainer = document.getElementById('answersContainer');
+        const nextQuestionButton = document.getElementById('nextQuestion');
+        const resultContainer = document.getElementById('resultContainer');
+        const correctAnswersCountSpan = document.getElementById('correctAnswersCount');
+        const incorrectAnswersCountSpan = document.getElementById('incorrectAnswersCount');
+        const restartQuizButton = document.getElementById('restartQuiz');
+
+        // MOSTRAR RESULTADO
+
+        function showResults() {
+            questionContainer.style.display = 'none';
+            answersContainer.style.display = 'none';
+            nextQuestionButton.style.display = 'none';
+            resultContainer.style.display = 'block';
+            correctAnswersCountSpan.textContent = correctAnswersCount;
+            incorrectAnswersCountSpan.textContent = incorrectAnswersCount;
+        }
+
+        // CARREGAR QUESTÃO
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const currentQuestion = questions[currentQuestionIndex];
+            questionContainer.textContent = currentQuestion.question;
+            answersContainer.innerHTML = '';
+
+            currentQuestion.answer.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.textContent = answer.option;
+                button.classList.add('bg-blue-300', 'hover:bg-blue-500', 'text-black', 'font-bold', 'py-2', 'px-4', 'rounded-md', 'my-2', 'transition', 'duration-300');
+                button.onclick = () => handleAnswerClick(answer.correct);
+                answersContainer.appendChild(button);
+            });
+        }
+
+        // ARMAZENAR QUESTÕES CORRETAS E INCORRETAS
+
+        function handleAnswerClick(isCorrect) {
+            if (isCorrect) {
+                correctAnswersCount++;
+            } else {
+                incorrectAnswersCount++;
+            }
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        // AVANÇAR E REINICIAR
+
+        nextQuestionButton.addEventListener('click', loadQuestion);
+        restartQuizButton.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            correctAnswersCount = 0;
+            incorrectAnswersCount = 0;
+            resultContainer.style.display = 'none';
+            questionContainer.style.display = 'block';
+            answersContainer.style.display = 'block';
+            nextQuestionButton.style.display = 'flex';
+            loadQuestion();
+        });
+
+        loadQuestion();
 
     </script>
 </body>
