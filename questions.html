@@ -151,8 +151,25 @@
             answersContainer.style.display = 'none';
             nextQuestionButton.style.display = 'none';
             resultContainer.style.display = 'block';
-            correctAnswersCountSpan.textContent = correctAnswersCount;
-            incorrectAnswersCountSpan.textContent = incorrectAnswersCount;
+            correctAnswersCountSpan.innerHTML = correctAnswersCount;
+            incorrectAnswersCountSpan.innerHTML = incorrectAnswersCount;
+
+            correctAnswersCountSpan.innerHTML = correctAnswersCount;
+            incorrectAnswersCountSpan.innerHTML = incorrectAnswersCount;
+
+            // CALCULAR PORCENTAGEM
+            const percentage = (correctAnswersCount / questions.length) * 100;
+            const percentageDisplay = document.createElement('p');
+            percentageDisplay.innerHTML = `Porcentagem de acertos: ${percentage.toFixed(2)}%`;
+            percentageDisplay.classList.add('text-lg', 'font-semibold', 'text-center', 'mt-4');
+
+            // REMOVENDO PORCENTAGEM ANTERIOR
+            const existingPercentageDisplay = document.querySelector('#resultContainer p:last-child');
+            if (existingPercentageDisplay) {
+                resultContainer.removeChild(existingPercentageDisplay);
+            }
+
+            resultContainer.appendChild(percentageDisplay);
         }
 
         // CARREGAR QUESTÃO
@@ -164,12 +181,12 @@
             }
 
             const currentQuestion = questions[currentQuestionIndex];
-            questionContainer.textContent = currentQuestion.question;
+            questionContainer.innerHTML = currentQuestion.question;
             answersContainer.innerHTML = '';
 
             currentQuestion.answer.forEach((answer, index) => {
                 const button = document.createElement('button');
-                button.textContent = answer.option;
+                button.innerHTML = answer.option;
                 button.classList.add('bg-blue-300', 'hover:bg-blue-500', 'w-full', 'text-black', 'font-bold', 'py-2', 'px-4', 'rounded-md', 'my-2', 'transition-all', 'duration-300');
                 button.onclick = () => handleAnswerClick(answer.correct);
                 answersContainer.appendChild(button);
@@ -203,7 +220,6 @@
         });
 
         loadQuestion();
-
     </script>
 </body>
 
