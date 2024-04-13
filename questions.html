@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Desbravadores</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
 </head>
 
-<body class="w-screen h-screen flex justify-center items-center flex-col bg-gradient-to-r from-blue-400 to-blue-700">
+<body class="bg-gradient-to-r from-blue-400 to-blue-700 min-h-screen flex flex-col justify-center items-center px-4">
 
-    <section class="bg-white rounded-md w-3/4 max-w-4xl mx-auto my-8 p-6 shadow-black shadow-xl">
-        <h1 class="text-3xl text-black text-center mb-14">QUIZ DESBRAVADORES</h1>
-        <h2 class="text-lg font-semibold text-center mb-4" id="questionContainer"></h2>
-        <div class="flex flex-col mb-4 ml-40 mr-40" id="answersContainer"></div>
-        <div class="flex justify-end"><button id="nextQuestion"></button>
+    <section class="bg-white rounded-lg shadow-xl w-full max-w-4xl p-6 my-4">
+        <h1 class="text-2xl md:text-3xl text-center text-black mb-10">QUIZ DESBRAVADORES</h1>
+        <h2 class="text-lg md:text-xl font-semibold text-center mb-6" id="questionContainer"></h2>
+        <div class="flex flex-col space-y-2 mb-6 px-4" id="answersContainer"></div>
+        <div class="flex justify-end">
+            <button id="nextQuestion"></button>
         </div>
-        <div id="resultContainer" class="hidden text-center mx-auto my-8 p-6">
-            <h1 class="text-3xl text-black mb-4">Resultado do Quiz</h1>
+        <div id="resultContainer" class="hidden text-center my-8 p-6">
+            <h1 class="text-2xl md:text-3xl text-black mb-4">Resultado do Quiz</h1>
             <p class="text-lg font-semibold">Acertos: <span id="correctAnswersCount" class="text-green-500">0</span></p>
             <p class="text-lg font-semibold">Erros: <span id="incorrectAnswersCount" class="text-red-500">0</span></p>
             <button id="restartQuiz"
